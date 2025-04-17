@@ -1,0 +1,48 @@
+version: '3.8'
+
+services:
+  nginx:
+    image: nginx:alpine
+    ports:
+      - "8081:80"
+    volumes:
+      - ./docker/nginx.conf:/etc/nginx/conf.d/default.conf
+      - ./public:/var/www/public
+    depends_on:
+      - order-service
+
+  order-service:
+    build: .
+    environment:
+      - PRODUCT_SERVICE_URL=http://product-service:8080
+      - DB_HOST=mysql-order
+      - DB_USER=root
+      - DB_PASSWORD=root
+      - DB_NAME=order_service
+    depends_on:
+      mysql-order:
+        condition: service_healthy
+    command: >
+      sh -c "php src/init-db.php && php-fpm"
+    restart: unless-stopped
+    volumes:
+      - ./public:/var/www/public
+
+  mysql-order:
+    image: mysql:8.2
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=order_service
+    ports:
+      - "3307:3306"
+    volumes:
+      - mysql-order-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-proot"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  mysql-order-data: 

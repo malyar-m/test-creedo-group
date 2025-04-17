@@ -1,0 +1,5 @@
+# Get all products
+curl -X GET http://localhost:3000/products
+
+# Get a specific product (replace {productId} with actual ID)
+curl -X GET http://localhost:3000/products/{productId}

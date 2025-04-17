@@ -1,0 +1,7 @@
+# Create a new order (replace {productId} with actual product ID)
+curl -X POST http://localhost:9000/orders \
+  -H "Content-Type: application/json" \
+  -d '{"productId": "{productId}", "quantity": 2}'
+
+# Get all orders
+curl -X GET http://localhost:9000/orders 

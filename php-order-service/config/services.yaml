@@ -1,0 +1,50 @@
+services:
+    _defaults:
+        autowire: true
+        autoconfigure: true
+
+    # Logger configuration
+    monolog.handler.stream:
+        class: Monolog\Handler\StreamHandler
+        arguments: ['php://stderr', 100]  # 100 = DEBUG level
+
+    logger:
+        class: Monolog\Logger
+        arguments: ['app']
+        calls:
+            - method: pushHandler
+              arguments:
+                - '@monolog.handler.stream'
+
+    # Application services
+    App\:
+        resource: '../src/*'
+        exclude: '../src/{DTO,HttpClient}'
+
+    App\Controller\:
+        resource: '../src/Controller'
+        tags: ['controller.service_arguments']
+
+    App\HttpClient\ProductClient:
+        class: App\HttpClient\ProductClient
+        arguments:
+            $baseUrl: '%env(PRODUCT_SERVICE_URL)%'
+            $logger: '@logger'
+
+    App\Storage\OrderStorage:
+        class: App\Storage\OrderStorage
+        arguments:
+            $logger: '@logger'
+
+    App\Service\OrderService:
+        class: App\Service\OrderService
+        arguments:
+            $productClient: '@App\HttpClient\ProductClient'
+            $orderStorage: '@App\Storage\OrderStorage'
+            $logger: '@logger'
+
+    App\Storage\Database: ~
+    App\Storage\DatabaseLogger: ~
+
+parameters:
+    monolog.level: 100  # DEBUG level 

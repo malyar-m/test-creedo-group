@@ -1,0 +1,34 @@
+version: '3.8'
+
+services:
+  product-service:
+    build: .
+    ports:
+      - "${SERVICE_PORT}:8080"
+    env_file:
+      - .env
+    depends_on:
+      mysql-product:
+        condition: service_healthy
+    command: >
+      sh -c "npm start"
+    restart: unless-stopped
+
+  mysql-product:
+    image: mysql:8.2
+    environment:
+      - MYSQL_ROOT_PASSWORD=${DB_PASSWORD}
+      - MYSQL_DATABASE=${DB_NAME}
+    ports:
+      - "${MYSQL_PORT}:3306"
+    volumes:
+      - mysql-product-data:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p${DB_PASSWORD}"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    restart: unless-stopped
+
+volumes:
+  mysql-product-data:

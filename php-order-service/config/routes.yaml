@@ -1,0 +1,9 @@
+orders:
+    path: /orders
+    controller: App\Controller\OrderController::getOrders
+    methods: GET
+
+create_order:
+    path: /orders
+    controller: App\Controller\OrderController::createOrder
+    methods: POST 
