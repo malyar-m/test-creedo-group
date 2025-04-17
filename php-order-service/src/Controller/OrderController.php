@@ -18,21 +18,18 @@ class OrderController
 
     public function createOrder(Request $request, Response $response): Response
     {
+        $response = new SlimResponse();
         $data = json_decode($request->getBody()->getContents(), true);
-        
         if (!isset($data['product_id']) || !isset($data['quantity'])) {
-            $response = new SlimResponse();
             $response->getBody()->write(json_encode(['error' => 'Missing required fields']));
             return $response->withStatus(400)->withHeader('Content-Type', 'application/json');
         }
 
         try {
             $order = $this->orderService->createOrder($data['product_id'], $data['quantity']);
-            $response = new SlimResponse();
             $response->getBody()->write(json_encode($order));
             return $response->withStatus(201)->withHeader('Content-Type', 'application/json');
         } catch (\RuntimeException $e) {
-            $response = new SlimResponse();
             $response->getBody()->write(json_encode(['error' => $e->getMessage()]));
             return $response->withStatus(404)->withHeader('Content-Type', 'application/json');
         }

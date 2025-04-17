@@ -2,6 +2,7 @@
 
 namespace App;
 
+use App\Controller\OrderController;
 use App\HttpClient\ProductClient;
 use App\Service\OrderService;
 use App\Storage\OrderStorage;
@@ -27,6 +28,12 @@ class Container implements ContainerInterface
             return new OrderService(
                 $this->get(ProductClient::class),
                 $this->get(OrderStorage::class)
+            );
+        };
+
+        $this->services[OrderController::class] = function () {
+            return new OrderController(
+                $this->get(OrderService::class)
             );
         };
     }

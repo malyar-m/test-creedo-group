@@ -1,7 +1,6 @@
 <?php
 
 use App\Container;
-use App\Controller\OrderController;
 use Slim\Factory\AppFactory;
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -11,7 +10,7 @@ $app = AppFactory::createFromContainer($container);
 
 $app->addErrorMiddleware(true, true, true);
 
-$app->post('/orders', [OrderController::class, 'createOrder']);
-$app->get('/orders', [OrderController::class, 'getOrders']);
+$app->post('/orders', [\App\Controller\OrderController::class, 'createOrder']);
+$app->get('/orders', [\App\Controller\OrderController::class, 'getOrders']);
 
 $app->run(); 

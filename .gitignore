@@ -1,0 +1,48 @@
+# Node.js
+node-product-service/node_modules/
+node-product-service/dist/
+node-product-service/npm-debug.log*
+node-product-service/yarn-debug.log*
+node-product-service/yarn-error.log*
+node-product-service/.pnpm-debug.log*
+node-product-service/.npm
+node-product-service/.yarn-integrity
+
+# PHP
+php-order-service/vendor/
+php-order-service/composer.lock
+php-order-service/.phpunit.result.cache
+php-order-service/.php_cs.cache
+php-order-service/.php-cs-fixer.cache
+php-order-service/.env
+php-order-service/.env.local
+php-order-service/.env.*.local
+php-order-service/.idea/
+php-order-service/.vscode/
+php-order-service/*.swp
+php-order-service/*.swo
+php-order-service/.DS_Store
+
+# Build artifacts
+php-order-service/*.log
+php-order-service/*.pid
+php-order-service/*.seed
+php-order-service/*.pid.lock
+php-order-service/*.env
+php-order-service/.env.local
+php-order-service/.env.development.local
+php-order-service/.env.test.local
+php-order-service/.env.production.local
+
+# IDE specific files
+node-product-service/.idea/
+node-product-service/.vscode/
+node-product-service/*.swp
+node-product-service/*.swo
+node-product-service/.DS_Store 
+
+php-order-service/.idea/
+php-order-service/.vscode/
+php-order-service/*.swp
+php-order-service/*.swo
+php-order-service/.DS_Store 

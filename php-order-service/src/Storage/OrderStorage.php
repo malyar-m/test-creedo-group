@@ -29,7 +29,6 @@ class OrderStorage
             $conn = Database::getConnection();
             $stmt = $conn->query('SELECT * FROM orders');
             $orders = [];
-            
             while ($row = $stmt->fetchAssociative()) {
                 $orders[] = new Order(
                     $row['id'],

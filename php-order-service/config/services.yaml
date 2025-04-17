@@ -3,19 +3,6 @@ services:
         autowire: true
         autoconfigure: true
 
-    # Logger configuration
-    monolog.handler.stream:
-        class: Monolog\Handler\StreamHandler
-        arguments: ['php://stderr', 100]  # 100 = DEBUG level
-
-    logger:
-        class: Monolog\Logger
-        arguments: ['app']
-        calls:
-            - method: pushHandler
-              arguments:
-                - '@monolog.handler.stream'
-
     # Application services
     App\:
         resource: '../src/*'
@@ -29,22 +16,14 @@ services:
         class: App\HttpClient\ProductClient
         arguments:
             $baseUrl: '%env(PRODUCT_SERVICE_URL)%'
-            $logger: '@logger'
 
     App\Storage\OrderStorage:
         class: App\Storage\OrderStorage
-        arguments:
-            $logger: '@logger'
 
     App\Service\OrderService:
         class: App\Service\OrderService
         arguments:
             $productClient: '@App\HttpClient\ProductClient'
             $orderStorage: '@App\Storage\OrderStorage'
-            $logger: '@logger'
 
     App\Storage\Database: ~
-    App\Storage\DatabaseLogger: ~
-
-parameters:
-    monolog.level: 100  # DEBUG level 

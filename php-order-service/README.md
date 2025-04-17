@@ -51,7 +51,7 @@ Example request to create an order:
 ```bash
 curl -X POST http://localhost:8081/orders \
   -H "Content-Type: application/json" \
-  -d '{"productId": "1", "quantity": 2}'
+  -d '{"product_id": "<any product id>", "quantity": 2}'
 ```
 
 ## Testing
